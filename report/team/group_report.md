@@ -22,7 +22,8 @@ Nhóm thực hiện đánh giá kinh tế và thiết kế kế hoạch pilot ch
 - **Chi phí (simulated):** Chi phí mỗi việc thành công toàn mẫu là `4.472 đ` (`simulated`), gấp `16,3×` hoá đơn token + tool (`274,7 đ`); chi phí cả hệ thống đạt `5.865 đ/yêu cầu = 0,49×` của `12.000 đ` (`simulated`). Trong phạm vi pilot `noi_dia + hang_nang` (đã cộng chi phí cố định `40 triệu đ/tháng`), chi phí là `4.599 đ = 0,38×` ở quy mô `45.000` yêu cầu/tháng (`simulated`).
 - **Độ nhạy & giới hạn:** Yếu tố nhạy nhất là số ca làm lại (`+51,8%` khi ×2, `simulated`), kế đến xem lại (`+40,7%`). Giới hạn `2` lần chạy cho tổng chi phí cả hệ thống thấp nhất (`6.901.220 đ`, `simulated`). Nếu xem lại 100%, chi phí vọt lên `11.743 đ = 0,98×` (9 phút làm lại) hoặc `12.415 đ = 1,03×` (15,3 phút, `simulated`).
 - **Chỉ số đợt chạy thử (không đối chứng):** Chỉ số chính trong đợt chạy thử là `82,83%`, tỉ lệ bỏ qua gợi ý `27,12%`, tỉ lệ mở lại trong 7 ngày `4,25%` (`3,97%` trong phạm vi).
-- **Đề xuất Gate 2a:** **Go có điều kiện** cho pilot phạm vi `noi_dia + hang_nang` (tối đa 2 lần chạy), kèm 4 điều kiện có vai trò phụ trách và hạn kiểm tra rõ ràng. Kết quả duyệt chéo của hội đồng sẽ cập nhật sau phiên 17:00.
+- **Đề xuất Gate 2a:** **Go có điều kiện** cho pilot phạm vi `noi_dia + hang_nang` (tối đa 2 lần chạy), kèm 4 điều kiện có vai trò phụ trách và hạn kiểm tra rõ ràng.
+- **Kết quả duyệt chéo Gate 2a:** Nhóm 4 (hội đồng) chấm nhóm XYZ đạt **30/30 điểm** với quyết định **Go có điều kiện**, đánh giá cao việc gắn nhãn `simulated`, thu hẹp phạm vi `noi_dia + hang_nang`, phân tích đánh đổi `MDE = 6 điểm` (`power = 0,64` ở mức 5 điểm) và nêu rõ rủi ro xem lại 100% cùng 4 điều kiện có người phụ trách và hạn kiểm tra.
 
 ## 5. Khó khăn và cách xử lý
 
