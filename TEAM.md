@@ -5,7 +5,7 @@
 - Tên nhóm: XYZ
 - Lớp: L3A
 - Repo nhóm: `K5-L3A-DAY13-XYZ-LaunchEconomics` (xem [SUBMISSION.md](SUBMISSION.md))
-- URL repo, nhánh nộp, commit chốt: `https://github.com/khanhhuy1714-hue/K5-L3A-DAY13-XYZ-LaunchEconomics`, nhánh `main`, commit chốt *(cập nhật sau khi chốt phiếu chấm Gate 2a và push)*
+- URL repo, nhánh nộp, commit chốt: `https://github.com/khanhhuy1714-hue/K5-L3A-DAY13-XYZ-LaunchEconomics`, nhánh `main`, commit "finish lab13"
 
 ## Thành viên
 
