@@ -90,6 +90,45 @@ def mo_hinh(runs, reqs, gia_vao=26, gia_ra=130, gia_tool=15, luong_phut=2000,
                 hoa_don_moi_yc=(token + tool) / len(reqs) if len(reqs) else 0.0)
 
 
+# ---------- Nhiệm vụ D · Cỡ mẫu pilot (CP4) ----------
+def co_mau_moi_nhom(p1, p2, alpha=0.05, power=0.8):
+    """Cỡ mẫu mỗi nhóm khi so hai tỉ lệ (statsmodels NormalIndPower, làm tròn lên)."""
+    from statsmodels.stats.proportion import proportion_effectsize
+    from statsmodels.stats.power import NormalIndPower
+    es = proportion_effectsize(p2, p1)
+    return math.ceil(NormalIndPower().solve_power(effect_size=es, alpha=alpha, power=power, ratio=1.0))
+
+
+def he_so_thiet_ke(m, icc=0.02):
+    return 1 + (m - 1) * icc
+
+
+def cau_d1(p0=0.70, mde=0.05, icc=0.02, m=75):
+    """Năm câu D1. Trả về dict kết quả (giữ nguyên số thực để in)."""
+    from statsmodels.stats.proportion import proportion_effectsize
+    from statsmodels.stats.power import NormalIndPower
+    n5 = co_mau_moi_nhom(p0, p0 + mde)                       # a
+    de = he_so_thiet_ke(m, icc)                              # b
+    n_cum = math.ceil(n5 * de)
+    n6 = co_mau_moi_nhom(p0, p0 + 0.06)                      # e
+    m_e = math.ceil(n6 * (1 - icc) / (20 - n6 * icc))        # 20m/(1+(m-1)icc) >= n6
+    power_5_voi_n6 = NormalIndPower().power(
+        effect_size=proportion_effectsize(p0 + mde, p0), nobs1=n6, alpha=0.05, ratio=1.0)
+    return {
+        'a_theo_yeu_cau': n5,
+        'b_de': de, 'b_n_moi_nhom': n_cum, 'b_nv_moi_nhom': math.ceil(n_cum / m),
+        'c_toi_da_20_nv': 20 / icc, 'c_dat': 20 / icc >= n5,
+        'd_toi_da_6_depot': 6 / icc, 'd_dat': 6 / icc >= n5,
+        'e_n_moi_nhom': n6, 'e_m_toi_thieu': m_e, 'e_de': he_so_thiet_ke(m_e, icc),
+        'power_neu_tac_dong_that_5_diem': power_5_voi_n6,
+    }
+
+
+def ti_le_mo_lai(reqs, loai=None):
+    d = reqs if loai is None else reqs[reqs.loai.isin(loai)]
+    return d.mo_lai_trong_7_ngay.sum(), len(d), d.mo_lai_trong_7_ngay.mean()
+
+
 if __name__ == '__main__':
     runs = pd.read_csv('logix_runs.csv')
     reqs = pd.read_csv('logix_requests.csv', keep_default_na=False)
@@ -162,6 +201,10 @@ if __name__ == '__main__':
     simulated_review_all_cost = pilot_trace_cost + len(ok_ids) * 5 * LUONG_PHUT + n_rework * avg_rework_minutes * LUONG_PHUT
     simulated_review_all_cps = simulated_review_all_cost / n_success
     print(f"B4 · 100% xem lại ({len(ok_ids)} ca × 5 phút, {n_rework} ca làm lại × {avg_rework_minutes:.1f} phút simulated): {review_all_cps:,.0f} đ/việc ({review_all_cps/BASELINE:.2f}x); dùng phút làm lại simulated: {simulated_review_all_cps:,.0f} đ/việc ({simulated_review_all_cps/BASELINE:.2f}x).")
-    # TODO CP4 · Nhiệm vụ D: cỡ mẫu.
-    #   from statsmodels.stats.proportion import proportion_effectsize
-    #   from statsmodels.stats.power import NormalIndPower
+    # CP4 · Nhiệm vụ D: cỡ mẫu (statsmodels) và tỉ lệ mở lại hiện tại.
+    print('\nCP4 · Nhiệm vụ D: Cỡ mẫu và luật an toàn')
+    for ten, gia_tri in cau_d1().items():
+        print(f'D1 {ten:32s} {gia_tri:,.4f}' if isinstance(gia_tri, float) else f'D1 {ten:32s} {gia_tri}')
+    for nhan, loai in [('toàn mẫu', None), ('noi_dia + hang_nang', ['noi_dia', 'hang_nang'])]:
+        so, tong, ty_le = ti_le_mo_lai(reqs, loai)
+        print(f'mo_lai_trong_7_ngay [{nhan}]: {so}/{tong} = {ty_le:.2%}')
